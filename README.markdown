@@ -21,6 +21,7 @@ Basic Usage
 TODO
 ----
 encoding post data (now it is only possible to send an already encoded string)
+
 response decoding (json -> array etc.)
 
 License
