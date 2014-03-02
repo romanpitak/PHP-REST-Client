@@ -1,6 +1,6 @@
 PHP REST Client
 ===============
-(c) 2014 Roman Piták <roman@pitak.net>
+(c) 2014 Roman Piták, http://pitak.net <roman@pitak.net>
 
 Representational state transfer PHP client library.
 
