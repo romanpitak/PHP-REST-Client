@@ -14,6 +14,15 @@ namespace RestClient;
  */
 class Client {
 
+	const BASE_URL_KEY = Request::BASE_URL_KEY;
+	const CURL_OPTIONS_KEY = Request::CURL_OPTIONS_KEY;
+	const HEADERS_KEY = Request::HEADERS_KEY;
+	const METHOD_KEY = Request::METHOD_KEY;
+	const PASSWORD_KEY = Request::PASSWORD_KEY;
+	const DATA_KEY = Request::DATA_KEY;
+	const USER_AGENT_KEY = Request::USER_AGENT_KEY;
+	const USERNAME_KEY = Request::USERNAME_KEY;
+
 	private $request;
 
 	public function __construct($config = array()) {
