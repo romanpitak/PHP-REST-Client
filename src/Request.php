@@ -57,19 +57,40 @@ class Request {
 	 * ========== Execution ==========
 	 */
 
+	/**
+	 * Invalidate response
+	 *
+	 * Called from the configuration changes.
+	 *
+	 */
 	private function invalidateResponse() {
 		$this->response = null;
 	}
 
+	/**
+	 *	Check response validity
+	 *
+	 * If nothing changed since the last response build, the response should be valid.
+	 * Calls to the setOption and setConfig invalidate the response.
+	 *
+	 * @return bool
+	 */
 	private function responseIsValid() {
 		return ($this->response instanceof Response);
 	}
 
+	/**
+	 * Did I already create the curl resource?
+	 *
+	 * @return bool
+	 */
 	private function curlResourceIsValid() {
 		return (!is_null($this->curlResource));
 	}
 
 	/**
+	 * Curl resource service (factory)
+	 *
 	 * @param bool $forceNew
 	 * @return resource
 	 */
@@ -83,6 +104,14 @@ class Request {
 
 	}
 
+	/**
+	 * Build the response object.
+	 *
+	 * Builds the response object based on current request configuration.
+	 *
+	 * @return Response
+	 * @throws RequestException
+	 */
 	private function buildResponse() {
 
 		// basic cURL options
@@ -108,7 +137,7 @@ class Request {
 			}
 		}
 
-		// method setup
+		// method
 		$method = strtoupper($this->getOption(self::METHOD_KEY, 'GET'));
 		switch ($method) {
 			case 'GET':
@@ -122,11 +151,13 @@ class Request {
 				$curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array()); // todo data pre-processing
 		}
 
+		// push options into the resource
 		$curlResource = $this->getCurlResource();
 		if (!curl_setopt_array($curlResource, $curlOptions)) {
 			throw new RequestException('Invalid cURL options');
 		}
 
+		// create response
 		$response = new Response($curlResource);
 
 		return $response;
@@ -137,15 +168,19 @@ class Request {
 	 */
 
 	/**
-	 * @param string $key Configuration key to be looked up and returned
-	 * @param mixed $default Return this if key does not exist
-	 * @return mixed
+	 * Get the configuration key of the client (request).
+	 *
+	 * @param string $key
+	 * @param mixed $default Default value to return if no value is set.
+	 * @return mixed Config value.
 	 */
 	public function getOption($key, $default = null) {
 		return (isset($this->config[$key]) ? $this->config[$key] : $default);
 	}
 
 	/**
+	 * Returns the response object based on current request configuration.
+	 *
 	 * @return Response
 	 */
 	public function getResponse() {
@@ -162,6 +197,8 @@ class Request {
 	 */
 
 	/**
+	 * Merge the current configuration array with the $config array provided.
+	 *
 	 * @param array $config Configuration array to be merged with the current configuration.
 	 * @return array Current configuration array after the merge.
 	 */
@@ -186,6 +223,15 @@ class Request {
 	 * ========== Helpers ==========
 	 */
 
+	/**
+	 * Merge 2 arrays.
+	 *
+	 * A more suitable replacement for array_merge_recursive. Treats all arrays as associative (Does not append numeric keys).
+	 *
+	 * @param $array1
+	 * @param $array2
+	 * @return array
+	 */
 	private static function configArrayMergeRecursive($array1, $array2) {
 		if (is_array($array1) && is_array($array2)) {
 			foreach ($array2 as $key => $value) {
