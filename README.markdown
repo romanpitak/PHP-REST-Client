@@ -8,7 +8,7 @@ Basic Usage
 -----------
 	<?php
 
-	$client = new Client('http://api.example.com/v2/'); // Use the client to sore general settings
+	$client = new Client('http://api.example.com/v2/'); // Use the client to store general settings
 
 	$request = $client->newRequest('hello-world.json'); // Returns a Request object
 
@@ -17,10 +17,4 @@ Basic Usage
 	$content = $response->getParsedResponse(); // Returns the response body as a string
 
 	?>
-
-TODO
-----
-encoding post data (now it is only possible to send an already encoded string)
-
-response decoding (json -> array etc.)
 
