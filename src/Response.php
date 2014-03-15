@@ -1,17 +1,18 @@
 <?php
 /**
- *
+ * Response
  *
  * @author Roman Piták <roman@pitak.net>
+ * @package romanpitak/php-rest-client
  *
  */
 
 namespace RestClient;
 
-class ResponseException extends Exception {
-}
-
-class Response {
+/**
+ * Class Response
+ */
+class Response implements IResponse {
 
 	/** @var  resource */
 	private $curlResource;
@@ -19,7 +20,7 @@ class Response {
 	/** @var string */
 	private $returnedTransfer = '';
 
-	/** @var  stdClass */
+	/** @var object $info */
 	private $info;
 
 	/** @var array */
@@ -32,6 +33,11 @@ class Response {
 	private $config = array();
 
 
+	/**
+	 *
+	 * @param array $curlResource
+	 * @throws ResponseException
+	 */
 	public function __construct($curlResource) {
 
 		$this->curlResource = $curlResource;
@@ -62,50 +68,27 @@ class Response {
 	}
 
 	/*
-	 * ========== Getters ==========
+	 * ========== IResponse ==========
 	 */
 
-	/**
-	 * @return string
-	 */
 	public function getReturnedTransfer() {
 		return $this->returnedTransfer;
 	}
 
-	/**
-	 * @return string
-	 */
 	public function getParsedResponse() {
 		return $this->parsedResponse;
 	}
 
-	/**
-	 * @return object|stdClass
-	 */
 	public function getInfo() {
 		return $this->info;
 	}
 
-	/**
-	 * Return a string containing the last error for the current session
-	 *
-	 * @return string
-	 */
 	public function getCurlError() {
 		return curl_error($this->curlResource);
 	}
 
-	/**
-	 * Return the last error number
-	 *
-	 * @return int
-	 */
 	public function getCurlErrorNumber() {
 		return curl_errno($this->curlResource);
 	}
-
-	/*
-	 * ========== Helpers ==========
-	 */
 
 }
