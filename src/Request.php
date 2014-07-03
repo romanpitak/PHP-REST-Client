@@ -117,6 +117,9 @@ class Request implements IRequest {
 
 		// cURL HTTP headers
 		$headers = $this->getOption(self::HEADERS_KEY, array());
+		// Turn off the Expect header to stop HTTP 100 Continue responses.
+		// Response parsing was not handling these headers. 
+		$curlOptions[CURLOPT_HTTPHEADER][] = "Expect:";
 		if (0 < count($headers)) {
 			$curlOptions[CURLOPT_HTTPHEADER] = array();
 			foreach ($headers as $key => $value) {
