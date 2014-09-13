@@ -9,6 +9,10 @@
 
 namespace RestClient;
 
+/**
+ * Class Exception
+ * @package RestClient
+ */
 class Exception extends \Exception{
 
 } 

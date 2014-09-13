@@ -9,6 +9,10 @@
 
 namespace RestClient;
 
+/**
+ * Class RequestException
+ * @package RestClient
+ */
 class RequestException extends Exception {
 
 } 

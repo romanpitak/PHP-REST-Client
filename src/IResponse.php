@@ -49,4 +49,11 @@ interface IResponse {
 	 */
 	public function getCurlErrorNumber();
 
+
+	/**
+	 * @param null $key
+	 *
+	 * @return mixed
+	 */
+	public function getHeader($key = null);
 } 

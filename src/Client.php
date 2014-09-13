@@ -16,6 +16,9 @@ class Client implements IClient {
 
 	private $request;
 
+	/**
+	 * @param array $config
+	 */
 	public function __construct($config = array()) {
 		if (is_string($config)) {
 			$config = array(self::BASE_URL_KEY => $config);
@@ -26,7 +29,14 @@ class Client implements IClient {
 	/*
 	 * ========== IRequest ==========
 	 */
-
+	/**
+	 * @param string $url
+	 * @param string $method
+	 * @param null   $data
+	 * @param array  $headers
+	 *
+	 * @return Request
+	 */
 	public function newRequest($url, $method = 'GET', $data = null, $headers = array()) {
 
 		// clone request
@@ -58,14 +68,29 @@ class Client implements IClient {
 
 	}
 
+	/**
+	 * @param string $key
+	 * @param null   $default
+	 *
+	 * @return null
+	 */
 	public function getOption($key, $default = null) {
 		return $this->request->getOption($key, $default);
 	}
 
+	/**
+	 * @param string $key
+	 * @param string $value
+	 */
 	public function setOption($key, $value) {
 		$this->request->setOption($key, $value);
 	}
 
+	/**
+	 * @param array $config
+	 *
+	 * @return array
+	 */
 	public function setConfig($config) {
 		return $this->request->setConfig($config);
 	}

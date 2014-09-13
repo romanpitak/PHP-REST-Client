@@ -35,6 +35,9 @@ class Request implements IRequest {
 	private $curlResource = null;
 
 
+	/**
+	 * @param array $config
+	 */
 	public function __construct($config = array()) {
 		$this->setConfig(self::configArrayMergeRecursive($this->defaultConfig, $config));
 	}
@@ -157,10 +160,19 @@ class Request implements IRequest {
 	 * ========== IRequest ==========
 	 */
 
+	/**
+	 * @param string $key
+	 * @param null   $default
+	 *
+	 * @return null
+	 */
 	public function getOption($key, $default = null) {
 		return (isset($this->config[$key]) ? $this->config[$key] : $default);
 	}
 
+	/**
+	 * @return Response
+	 */
 	public function getResponse() {
 
 		if (!$this->responseIsValid()) {
@@ -170,12 +182,21 @@ class Request implements IRequest {
 		return $this->response;
 	}
 
+	/**
+	 * @param array $config
+	 *
+	 * @return array
+	 */
 	public function setConfig($config) {
 		$this->config = self::configArrayMergeRecursive($this->config, $config);
 		$this->invalidateResponse();
 		return $this->config;
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed  $value
+	 */
 	public function setOption($key, $value) {
 		$this->invalidateResponse();
 		$this->config[$key] = $value;
