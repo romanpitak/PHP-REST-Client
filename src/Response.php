@@ -29,13 +29,9 @@ class Response implements IResponse {
 	/** @var string  */
 	private $parsedResponse = '';
 
-	/** @var array  */
-	private $config = array();
-
-
 	/**
 	 *
-	 * @param array $curlResource
+	 * @param resource $curlResource
 	 * @throws ResponseException
 	 */
 	public function __construct($curlResource) {
@@ -51,7 +47,13 @@ class Response implements IResponse {
 
 		// parse response
 		$token = "\n";
-		strtok($this->returnedTransfer, $token);
+		$line = strtok($this->returnedTransfer, $token);
+
+		if (stripos($line, ' 100 Continue') !== false && stripos($line, 'HTTP') === 0) {
+			while (0 < strlen(trim($line = strtok($token)))) { }
+			strtok($token); // also slip next HTTP TAG
+		}
+
 		while (0 < strlen(trim($line = strtok($token)))) {
 			list($key, $value) = explode(':', $line, 2);
 			$key = trim(strtolower(str_replace('-', '_', $key)));
@@ -71,24 +73,52 @@ class Response implements IResponse {
 	 * ========== IResponse ==========
 	 */
 
+	/**
+	 * @return mixed|string
+	 */
 	public function getReturnedTransfer() {
 		return $this->returnedTransfer;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getParsedResponse() {
 		return $this->parsedResponse;
 	}
 
+	/**
+	 * @return object
+	 */
 	public function getInfo() {
 		return $this->info;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getCurlError() {
 		return curl_error($this->curlResource);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getCurlErrorNumber() {
 		return curl_errno($this->curlResource);
 	}
 
+	/**
+	 * @param null $key
+	 *
+	 * @return mixed
+	 */
+	public function getHeader($key = null) {
+		if ($key === null) {
+			$this->headers;
+		} else if (isset($this->headers[$key])) {
+			return $this->headers[$key];
+		}
+		return null;
+	}
 }
