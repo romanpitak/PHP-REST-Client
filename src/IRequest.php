@@ -60,4 +60,4 @@ interface IRequest {
 	 * @param mixed $value Value
 	 */
 	public function setOption($key, $value);
-} 
+}

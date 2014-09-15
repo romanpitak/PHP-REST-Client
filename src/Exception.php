@@ -15,4 +15,4 @@ namespace RestClient;
  */
 class Exception extends \Exception{
 
-} 
+}

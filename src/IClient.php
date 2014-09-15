@@ -56,4 +56,4 @@ interface IClient {
 	 * @return array Current configuration array after the merge.
 	 */
 	public function setConfig($config);
-} 
+}

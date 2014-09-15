@@ -121,7 +121,7 @@ class Request implements IRequest {
 		// cURL HTTP headers
 		$headers = $this->getOption(self::HEADERS_KEY, array());
 		// Turn off the Expect header to stop HTTP 100 Continue responses.
-		// Response parsing was not handling these headers. 
+		// Response parsing was not handling these headers.
 		$curlOptions[CURLOPT_HTTPHEADER][] = "Expect:";
 		if (0 < count($headers)) {
 			$curlOptions[CURLOPT_HTTPHEADER] = array();
@@ -160,19 +160,24 @@ class Request implements IRequest {
 	 * ========== IRequest ==========
 	 */
 
-	/**
-	 * @param string $key
-	 * @param null   $default
-	 *
-	 * @return null
-	 */
+    /**
+     * Get the configuration key of the client (request).
+     *
+     * @param string $key
+     * @param mixed $default Default value to return if no value is set.
+     * @return mixed Config value.
+     */
 	public function getOption($key, $default = null) {
 		return (isset($this->config[$key]) ? $this->config[$key] : $default);
 	}
 
-	/**
-	 * @return Response
-	 */
+    /**
+     * Returns the response object based on current request configuration.
+     *
+     * @return IResponse
+     * @throws RequestException
+     * @throws ResponseException
+     */
 	public function getResponse() {
 
 		if (!$this->responseIsValid()) {
@@ -182,21 +187,24 @@ class Request implements IRequest {
 		return $this->response;
 	}
 
-	/**
-	 * @param array $config
-	 *
-	 * @return array
-	 */
+    /**
+     * Merge the current configuration array with the $config array provided.
+     *
+     * @param array $config Configuration array to be merged with the current configuration.
+     * @return array Current configuration array after the merge.
+     */
 	public function setConfig($config) {
 		$this->config = self::configArrayMergeRecursive($this->config, $config);
 		$this->invalidateResponse();
 		return $this->config;
 	}
 
-	/**
-	 * @param string $key
-	 * @param mixed  $value
-	 */
+    /**
+     * Set configuration parameter.
+     *
+     * @param string $key Configuration key
+     * @param mixed $value Value
+     */
 	public function setOption($key, $value) {
 		$this->invalidateResponse();
 		$this->config[$key] = $value;
