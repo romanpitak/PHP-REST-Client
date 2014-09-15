@@ -15,9 +15,7 @@ php composer.phar require romanpitak/php-rest-client
 
 ## Basic Usage
 
-```
-<?php
-
+```php
 $client = new Client('http://api.example.com/v2/'); // Use the client to store general settings
 
 $request = $client->newRequest('hello-world.json'); // Returns a Request object
