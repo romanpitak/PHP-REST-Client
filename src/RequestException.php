@@ -15,4 +15,4 @@ namespace RestClient;
  */
 class RequestException extends Exception {
 
-} 
+}

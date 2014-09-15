@@ -1,12 +1,12 @@
 <?php
 /**
  * Client
- * 
+ *
  * @author Roman Piták <roman@pitak.net>
  * @package romanpitak/php-rest-client
  *
  */
- 
+
 namespace RestClient;
 
 /**
@@ -29,14 +29,13 @@ class Client implements IClient {
 	/*
 	 * ========== IRequest ==========
 	 */
-	/**
-	 * @param string $url
-	 * @param string $method
-	 * @param null   $data
-	 * @param array  $headers
-	 *
-	 * @return Request
-	 */
+    /**
+     * @param string $url
+     * @param string $method
+     * @param string $data
+     * @param array $headers
+     * @return IRequest
+     */
 	public function newRequest($url, $method = 'GET', $data = null, $headers = array()) {
 
 		// clone request
@@ -68,34 +67,35 @@ class Client implements IClient {
 
 	}
 
-	/**
-	 * @param string $key
-	 * @param null   $default
-	 *
-	 * @return null
-	 */
+    /**
+     * Get the configuration key of the client (request).
+     *
+     * @param string $key
+     * @param mixed $default Default value to return if no value is set.
+     * @return mixed Config value.
+     */
 	public function getOption($key, $default = null) {
 		return $this->request->getOption($key, $default);
 	}
 
-	/**
-	 * @param string $key
-	 * @param string $value
-	 */
+    /**
+     * Set configuration parameter.
+     *
+     * @param string $key Configuration key
+     * @param string $value Value
+     */
 	public function setOption($key, $value) {
 		$this->request->setOption($key, $value);
 	}
 
-	/**
-	 * @param array $config
-	 *
-	 * @return array
-	 */
+    /**
+     * Merge the current configuration array with the $config array provided.
+     *
+     * @param array $config Configuration array to be merged with the current configuration.
+     * @return array Current configuration array after the merge.
+     */
 	public function setConfig($config) {
 		return $this->request->setConfig($config);
 	}
 
 }
-
-
-

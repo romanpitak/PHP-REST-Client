@@ -51,9 +51,12 @@ interface IResponse {
 
 
 	/**
-	 * @param null $key
-	 *
+     * Get the header key.
+     *
+     * Get the header key, or the whole header, if the key is null.
+     *
+	 * @param string $key
 	 * @return mixed
 	 */
 	public function getHeader($key = null);
-} 
+}

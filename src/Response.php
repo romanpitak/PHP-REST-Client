@@ -73,46 +73,59 @@ class Response implements IResponse {
 	 * ========== IResponse ==========
 	 */
 
-	/**
-	 * @return mixed|string
-	 */
+    /**
+     * Return the raw curl_exec() output
+     *
+     * @return string
+     */
 	public function getReturnedTransfer() {
 		return $this->returnedTransfer;
 	}
 
-	/**
-	 * @return string
-	 */
+    /**
+     * Return the response body
+     *
+     * @return string
+     */
 	public function getParsedResponse() {
 		return $this->parsedResponse;
 	}
 
-	/**
-	 * @return object
-	 */
+    /**
+     * (object)curl_getinfo()
+     *
+     * @return object
+     */
 	public function getInfo() {
 		return $this->info;
 	}
 
-	/**
-	 * @return string
-	 */
+    /**
+     * Return a string containing the last error for the current session
+     *
+     * @return string
+     */
 	public function getCurlError() {
 		return curl_error($this->curlResource);
 	}
 
-	/**
-	 * @return int
-	 */
+    /**
+     * Return the last error number
+     *
+     * @return int
+     */
 	public function getCurlErrorNumber() {
 		return curl_errno($this->curlResource);
 	}
 
-	/**
-	 * @param null $key
-	 *
-	 * @return mixed
-	 */
+    /**
+     * Get the header key.
+     *
+     * Get the header key, or the whole header, if the key is null.
+     *
+     * @param string $key
+     * @return mixed
+     */
 	public function getHeader($key = null) {
 		if ($key === null) {
 			$this->headers;
