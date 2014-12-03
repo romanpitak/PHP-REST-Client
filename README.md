@@ -1,7 +1,7 @@
 # PHP REST Client
-[![Latest Stable Version](https://poser.pugx.org/romanpitak/php-rest-client/v/stable.svg)](https://packagist.org/packages/romanpitak/php-rest-client) 
-[![Total Downloads](https://poser.pugx.org/romanpitak/php-rest-client/downloads.svg)](https://packagist.org/packages/romanpitak/php-rest-client) 
-[![License](https://poser.pugx.org/romanpitak/php-rest-client/license.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
+[![Latest Stable Version](https://img.shields.io/packagist/v/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client) 
+[![Total Downloads](https://img.shields.io/packagist/dt/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client) 
+[![License](https://img.shields.io/packagist/l/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
 
 (c) 2014 Roman Piták, http://pitak.net <roman@pitak.net>
 
