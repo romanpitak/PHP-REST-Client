@@ -3,7 +3,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client) 
 [![License](https://img.shields.io/packagist/l/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
 
-(c) 2014 Roman Piták, http://pitak.net <roman@pitak.net>
+(c) 2014-2015 Roman Piták, http://pitak.net <roman@pitak.net>
 
 Representational state transfer PHP client library.
 
