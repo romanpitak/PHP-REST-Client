@@ -35,18 +35,21 @@ class Response implements IResponse {
      * @throws ResponseException
      */
     public function __construct($curlResource) {
-
         $this->curlResource = $curlResource;
+        $this->executeCurlResource();
+        $this->parseResponse();
+    }
 
-        // execute
+    private function executeCurlResource() {
         $this->returnedTransfer = curl_exec($this->curlResource);
         if (false === $this->returnedTransfer) {
             $message = sprintf("CURL ERROR #%s: %s", $this->getCurlErrorNumber(), $this->getCurlError());
             throw new ResponseException($message);
         }
         $this->info = (object)curl_getinfo($this->curlResource);
+    }
 
-        // parse response
+    private function parseResponse() {
         $token = "\n";
         $line = strtok($this->returnedTransfer, $token);
 
