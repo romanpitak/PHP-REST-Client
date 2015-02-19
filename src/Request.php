@@ -104,20 +104,55 @@ class Request implements IRequest {
      */
     private function buildResponse() {
 
-        // basic cURL options
+        $curlOptions = $this->getBasicCurlOptions();
+        $this->addRequestAuth($curlOptions);
+        $this->addRequestHeaders($curlOptions);
+        $this->addRequestMethod($curlOptions);
+
+        // push options into the resource
+        $curlResource = $this->getCurlResource();
+        if (!curl_setopt_array($curlResource, $curlOptions)) {
+            throw new RequestException('Invalid cURL options');
+        }
+
+        // create response
+        $response = new Response($curlResource);
+        return $response;
+    }
+
+    /**
+     * Create basic curl options
+     *
+     * @return array Curl options
+     */
+    private function getBasicCurlOptions() {
         $curlOptions = $this->getOption(self::CURL_OPTIONS_KEY, array());
         $curlOptions[CURLOPT_HEADER] = true;
         $curlOptions[CURLOPT_RETURNTRANSFER] = true;
         $curlOptions[CURLOPT_USERAGENT] = $this->getOption(self::USER_AGENT_KEY);
         $curlOptions[CURLOPT_URL] = $this->getOption(self::BASE_URL_KEY);
+        return $curlOptions;
+    }
 
-        // cURL authentication
+    /**
+     * Add authentication to curl options
+     *
+     * @param array &$curlOptions
+     */
+    private function addRequestAuth(&$curlOptions) {
         $username = $this->getOption(self::USERNAME_KEY);
         $password = $this->getOption(self::PASSWORD_KEY);
         if ((!is_null($username)) && (!is_null($password))) {
             $curlOptions[CURLOPT_USERPWD] = sprintf("%s:%s", $username, $password);
         }
+    }
 
+    /**
+     * Add headers to curl options
+     *
+     * @param array &$curlOptions
+     */
+    private function addRequestHeaders(&$curlOptions) {
         // cURL HTTP headers
         $headers = $this->getOption(self::HEADERS_KEY, array());
         // Turn off the Expect header to stop HTTP 100 Continue responses.
@@ -129,8 +164,14 @@ class Request implements IRequest {
                 $curlOptions[CURLOPT_HTTPHEADER][] = sprintf("%s:%s", $key, $value);
             }
         }
+    }
 
-        // method
+    /**
+     * Add Method to curl options
+     *
+     * @param array &$curlOptions
+     */
+    private function addRequestMethod(&$curlOptions) {
         $method = strtoupper($this->getOption(self::METHOD_KEY, 'GET'));
         switch ($method) {
             case 'GET':
@@ -143,17 +184,6 @@ class Request implements IRequest {
                 $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
                 $curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array());
         }
-
-        // push options into the resource
-        $curlResource = $this->getCurlResource();
-        if (!curl_setopt_array($curlResource, $curlOptions)) {
-            throw new RequestException('Invalid cURL options');
-        }
-
-        // create response
-        $response = new Response($curlResource);
-
-        return $response;
     }
 
     /*
