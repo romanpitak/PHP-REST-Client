@@ -18,11 +18,12 @@ php composer.phar require romanpitak/php-rest-client
 ## Basic Usage
 
 ```php
-$client = new Client('http://api.example.com/v2/'); // Use the client to store general settings
-
-$request = $client->newRequest('hello-world.json'); // Returns a Request object
-
-$response = $request->getResponse(); // Returns a Response object
-
-$content = $response->getParsedResponse(); // Returns the response body as a string
+// Use the client to store general settings
+$client = new Client('https://raw.githubusercontent.com/romanpitak');
+// Get a Request object
+$request = $client->newRequest('/PHP-REST-Client/master/README.md');
+// Get a Response object
+$response = $request->getResponse();
+// Get the response body as a string
+echo $response->getParsedResponse();
 ```
