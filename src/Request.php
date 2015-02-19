@@ -137,11 +137,11 @@ class Request implements IRequest {
                 break;
             case 'POST':
                 $curlOptions[CURLOPT_POST] = true;
-                $curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array()); // todo data pre-processing if it's an array
+                $curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array());
                 break;
             default:
                 $curlOptions[CURLOPT_CUSTOMREQUEST] = $method;
-                $curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array()); // todo data pre-processing
+                $curlOptions[CURLOPT_POSTFIELDS] = $this->getOption(self::DATA_KEY, array());
         }
 
         // push options into the resource
@@ -217,7 +217,8 @@ class Request implements IRequest {
     /**
      * Merge 2 arrays.
      *
-     * A more suitable replacement for array_merge_recursive. Treats all arrays as associative (Does not append numeric keys).
+     * A more suitable replacement for array_merge_recursive.
+     * Treats all arrays as associative (Does not append numeric keys).
      *
      * @param $array1
      * @param $array2

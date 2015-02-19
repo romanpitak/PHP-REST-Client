@@ -41,7 +41,8 @@ class Response implements IResponse {
         // execute
         $this->returnedTransfer = curl_exec($this->curlResource);
         if (false === $this->returnedTransfer) {
-            throw new ResponseException(sprintf("CURL ERROR #%s: %s", $this->getCurlErrorNumber(), $this->getCurlError()));
+            $message = sprintf("CURL ERROR #%s: %s", $this->getCurlErrorNumber(), $this->getCurlError());
+            throw new ResponseException($message);
         }
         $this->info = (object)curl_getinfo($this->curlResource);
 
@@ -50,7 +51,9 @@ class Response implements IResponse {
         $line = strtok($this->returnedTransfer, $token);
 
         if (stripos($line, ' 100 Continue') !== false && stripos($line, 'HTTP') === 0) {
-            while (0 < strlen(trim($line = strtok($token)))) { }
+            do {
+                $line = strtok($token);
+            } while (0 < strlen(trim($line)));
             strtok($token); // also slip next HTTP TAG
         }
 
@@ -58,15 +61,15 @@ class Response implements IResponse {
             list($key, $value) = explode(':', $line, 2);
             $key = trim(strtolower(str_replace('-', '_', $key)));
             $value = trim($value);
-            if (empty($this->headers[$key]))
+            if (empty($this->headers[$key])) {
                 $this->headers[$key] = $value;
-            elseif (is_array($this->headers[$key]))
+            } elseif (is_array($this->headers[$key])) {
                 $this->headers[$key][] = $value;
-            else
+            } else {
                 $this->headers[$key] = array($this->headers[$key], $value);
+            }
         }
         $this->parsedResponse = strtok("");
-
     }
 
     /*
