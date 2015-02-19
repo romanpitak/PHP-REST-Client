@@ -18,12 +18,11 @@ php composer.phar require romanpitak/php-rest-client
 ## Basic Usage
 
 ```php
-// Use the client to store general settings
 $client = new Client('https://raw.githubusercontent.com/romanpitak');
-// Get a Request object
+
 $request = $client->newRequest('/PHP-REST-Client/master/README.md');
-// Get a Response object
+
 $response = $request->getResponse();
-// Get the response body as a string
+
 echo $response->getParsedResponse();
 ```
