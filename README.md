@@ -1,4 +1,5 @@
 # PHP REST Client
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
 [![Total Downloads](https://img.shields.io/packagist/dt/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
 [![License](https://img.shields.io/packagist/l/romanpitak/php-rest-client.svg)](https://packagist.org/packages/romanpitak/php-rest-client)
@@ -10,7 +11,9 @@
 Representational state transfer PHP client library.
 
 ## Installation
+
 The best way to install is to use the [Composer](https://getcomposer.org/) dependency manager.
+
 ```
 php composer.phar require romanpitak/php-rest-client
 ```
