@@ -40,6 +40,14 @@ class Response implements IResponse {
         $this->parseResponse();
     }
 
+    /**
+     * Execute $this->curlResource into $this->returnedTransfer
+     *
+     * Throw error on error.
+     * Set $this->info
+     *
+     * @throws ResponseException
+     */
     private function executeCurlResource() {
         $this->returnedTransfer = curl_exec($this->curlResource);
         if (false === $this->returnedTransfer) {
@@ -49,6 +57,11 @@ class Response implements IResponse {
         $this->info = (object)curl_getinfo($this->curlResource);
     }
 
+    /**
+     * Parse $this->returnedTransfer
+     *
+     * Write $this->headers and $this->parsedResponse
+     */
     private function parseResponse() {
         $token = "\n";
         $line = strtok($this->returnedTransfer, $token);
@@ -61,18 +74,27 @@ class Response implements IResponse {
         }
 
         while (0 < strlen(trim($line = strtok($token)))) {
-            list($key, $value) = explode(':', $line, 2);
-            $key = trim(strtolower(str_replace('-', '_', $key)));
-            $value = trim($value);
-            if (empty($this->headers[$key])) {
-                $this->headers[$key] = $value;
-            } elseif (is_array($this->headers[$key])) {
-                $this->headers[$key][] = $value;
-            } else {
-                $this->headers[$key] = array($this->headers[$key], $value);
-            }
+            $this->parseResponseHeaderLine($line);
         }
         $this->parsedResponse = strtok("");
+    }
+
+    /**
+     * Parse a line of $this->returnedTransfer
+     *
+     * Write an entry into $this->headers
+     */
+    private function parseResponseHeaderLine($line) {
+        list($key, $value) = explode(':', $line, 2);
+        $key = trim(strtolower(str_replace('-', '_', $key)));
+        $value = trim($value);
+        if (empty($this->headers[$key])) {
+            $this->headers[$key] = $value;
+        } elseif (is_array($this->headers[$key])) {
+            $this->headers[$key][] = $value;
+        } else {
+            $this->headers[$key] = array($this->headers[$key], $value);
+        }
     }
 
     /*
